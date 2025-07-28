@@ -1,0 +1,39 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout, selectUser } from './features/userSlice';
+import HomeScreen from './pages/HomeScreen';
+import LoginScreen from './pages/LoginScreen';
+import './App.css'; // Main app styles
+
+function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Check local storage for a user session
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    if (loggedInUser && loggedInUser.token) {
+      // Here you might want to verify the token with the backend in a real app
+      dispatch(login(loggedInUser));
+    } else {
+      dispatch(logout());
+    }
+  }, [dispatch]);
+
+  return (
+    <div className="app">
+      <Router>
+        <Routes>
+          {!user ? (
+            <Route path="*" element={<LoginScreen />} />
+          ) : (
+            <Route path="/" element={<HomeScreen />} />
+          )}
+        </Routes>
+      </Router>
+    </div>
+  );
+}
+
+export default App;

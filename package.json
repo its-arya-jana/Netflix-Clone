@@ -1,0 +1,13 @@
+{
+  "name": "netflix-clone-root",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "cd client && npm install && cd ../server && npm install",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
